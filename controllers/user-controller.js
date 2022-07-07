@@ -6,4 +6,13 @@ module.exports = {
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
+  getUserById(req, res) {
+    User.findOne({ _id: req.params.userId })
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'Please enter valid ID.' })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
 };
