@@ -20,4 +20,14 @@ module.exports = {
       .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => res.status(500).json(err));
   },
+  deleteThought(req, res) {
+    Thought.findOneAndDelete({ _id: req.params.thoughtId })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'Please enter valid ID.' })
+          : Application.deleteMany({ _id: { $in: thought.reactions } })
+      )
+      .then(() => res.json({ message: 'Thought removed.' }))
+      .catch((err) => res.status(500).json(err));
+  },
 };
