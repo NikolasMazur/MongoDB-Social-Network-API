@@ -20,4 +20,14 @@ module.exports = {
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(500).json(err));
   },
+ deleteUser(req, res) {
+  User.findOneAndDelete({ _id: req.params.userId })
+    .then((user) =>
+      !user
+        ? res.status(404).json({ message: 'Please enter valid ID.' })
+        : friend.deleteMany({ _id: { $in: user.thoughts } })
+    )
+    .then(() => res.json({ message: 'User and thoughts removed.' }))
+    .catch((err) => res.status(500).json(err));
+},
 };
