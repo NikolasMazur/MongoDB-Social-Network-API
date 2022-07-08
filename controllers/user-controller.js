@@ -43,4 +43,34 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  postFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res
+            .status(404)
+            .json({ message: 'Please enter valid ID.' })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  deleteFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res
+            .status(404)
+            .json({ message: 'Please enter valid ID.' })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
 };
