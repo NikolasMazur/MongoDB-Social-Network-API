@@ -20,6 +20,7 @@ module.exports = {
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(500).json(err));
   },
+// Server will crash if making a DELETE request returns 404
  deleteUser(req, res) {
   User.findOneAndDelete({ _id: req.params.userId })
     .then((user) =>
@@ -58,6 +59,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+// Server will crash if making a DELETE request returns 404
   deleteFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },

@@ -20,6 +20,7 @@ module.exports = {
       .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => res.status(500).json(err));
   },
+// Server will crash if making a DELETE request returns 404
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((thought) =>
@@ -60,6 +61,7 @@ module.exports = {
       })
       .catch((err) => res.status(500).json(err));
   },
+// Server will crash if making a DELETE request returns 404
   deleteReaction({ params, body }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
